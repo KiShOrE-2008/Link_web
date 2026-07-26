@@ -1,9 +1,21 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 export default function NetworkBackground() {
     const canvasRef = useRef(null);
+    const [isMobile, setIsMobile] = useState(false);
 
     useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    useEffect(() => {
+        if (isMobile) return;
+
         const canvas = canvasRef.current;
         if (!canvas) return;
 
@@ -14,6 +26,7 @@ export default function NetworkBackground() {
         const particleCount = 130;
         const connectionDistance = 130;
         const mouseRadius = 150;
+        const maxConnectionOpacity = 0.38;
         const particles = [];
         const mouse = { x: null, y: null };
 
@@ -133,7 +146,7 @@ export default function NetworkBackground() {
 
                     if (dist < connectionDistance) {
                         // Opacity fades as distance increases
-                        const opacity = (1 - dist / connectionDistance) * 0.38; // Increased connection line opacity
+                        const opacity = (1 - dist / connectionDistance) * maxConnectionOpacity;
                         ctx.beginPath();
                         ctx.moveTo(p1.x, p1.y);
                         ctx.lineTo(p2.x, p2.y);
@@ -179,7 +192,9 @@ export default function NetworkBackground() {
             window.removeEventListener('mouseleave', handleMouseLeave);
             cancelAnimationFrame(animationFrameId);
         };
-    }, []);
+    }, [isMobile]);
+
+    if (isMobile) return null;
 
     return <canvas ref={canvasRef} className="network-canvas" />;
 }
