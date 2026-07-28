@@ -8,28 +8,49 @@ export default function Contact() {
     const [statusClass, setStatusClass] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!name.trim() || !email.trim() || !message.trim()) {
+            setFormStatus('Oops! Please fill in all fields before sending.');
+            setStatusClass('error');
+            return;
+        }
 
         setIsSubmitting(true);
         setFormStatus('');
         setStatusClass('');
 
-        // Simulate server POST request
-        setTimeout(() => {
-            setIsSubmitting(false);
+        try {
+            const response = await fetch('https://formsubmit.co/ajax/kv.kishorevijay@gmail.com', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: name.trim(),
+                    email: email.trim(),
+                    message: message.trim()
+                })
+            });
 
-            if (name.trim() && email.trim() && message.trim()) {
+            if (response.ok) {
                 setFormStatus(`Thank you, ${name}! Your message has been sent successfully.`);
                 setStatusClass('success');
                 setName('');
                 setEmail('');
                 setMessage('');
             } else {
-                setFormStatus('Oops! Please fill in all fields before sending.');
-                setStatusClass('error');
+                throw new Error('Failed to send message');
             }
-        }, 1200);
+        } catch (error) {
+            console.error('Contact Form Submission Error:', error);
+            setFormStatus('Oops! Something went wrong while sending your message. Please try again later.');
+            setStatusClass('error');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (

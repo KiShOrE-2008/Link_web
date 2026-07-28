@@ -62,7 +62,7 @@ export default function NetworkBackground() {
                 this.vx = (Math.random() - 0.5) * 0.5;
                 this.vy = (Math.random() - 0.5) * 0.5;
                 this.radius = Math.random() * 1.5 + 1; // 1px to 2.5px
-                
+
                 // Color selection: 75% cyan-blue, 17% purple, 8% mild green
                 const rand = Math.random();
                 if (rand < 0.75) {
@@ -80,7 +80,7 @@ export default function NetworkBackground() {
 
                 // Bounce off left/right edges
                 if (this.x < 0 || this.x > canvas.width) this.vx = -this.vx;
-                
+
                 // Wrap top/bottom edges and disperse coordinates to prevent horizontal clustering
                 if (this.y < 0) {
                     this.y = canvas.height - Math.random() * (canvas.height * 0.5);
@@ -150,7 +150,7 @@ export default function NetworkBackground() {
                         ctx.beginPath();
                         ctx.moveTo(p1.x, p1.y);
                         ctx.lineTo(p2.x, p2.y);
-                        
+
                         // Use a mild green connection if BOTH particles are green
                         if (p1.color.includes('34, 197, 94') && p2.color.includes('34, 197, 94')) {
                             ctx.strokeStyle = `rgba(34, 197, 94, ${opacity * 0.8})`;

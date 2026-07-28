@@ -11,7 +11,7 @@ export default function Preloader({ onComplete }) {
     useEffect(() => {
         const command = "npx kishore-kv --init";
         let typeIndex = 0;
-        
+
         // 1. Command typing animation
         const typingInterval = setInterval(() => {
             if (typeIndex < command.length) {
@@ -49,7 +49,7 @@ export default function Preloader({ onComplete }) {
                     if (currentProgress >= 100) {
                         setProgress(100);
                         clearInterval(progressInterval);
-                        
+
                         // Hold completed state briefly before transition
                         setTimeout(() => {
                             setFadeOut(true);
@@ -84,7 +84,7 @@ export default function Preloader({ onComplete }) {
             <div className="preloader-background">
                 <NetworkBackground />
             </div>
-            
+
             {/* Terminal Window Mockup */}
             <div className="terminal-preloader-window">
                 <div className="terminal-header">
@@ -98,13 +98,13 @@ export default function Preloader({ onComplete }) {
                         <span className="terminal-user">guest@kishore-kv</span>:<span className="terminal-dir">~</span>$ <span className="terminal-command">{typedText}</span>
                         {!commandCompleted && <span className="terminal-cursor"></span>}
                     </div>
-                    
+
                     {commandCompleted && (
                         <div className="terminal-output">
                             {consoleLines.map((line, idx) => (
                                 <div key={idx} className="terminal-line">{line}</div>
                             ))}
-                            
+
                             {progress > 0 && (
                                 <div className="terminal-progress-line">
                                     <span className="progress-bracket">[</span>
@@ -113,7 +113,7 @@ export default function Preloader({ onComplete }) {
                                     <span className="progress-pct"> {progress}%</span>
                                 </div>
                             )}
-                            
+
                             {progress === 100 && (
                                 <div className="terminal-success-line">Launch successful. Entering portfolio...</div>
                             )}

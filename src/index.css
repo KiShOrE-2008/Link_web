@@ -1,27 +1,28 @@
 /* Design Tokens & Variables */
 :root {
-    --bg-dark: hsl(222, 47%, 6%);
-    --bg-card: hsla(222, 47%, 12%, 0.4);
-    --border-light: rgba(255, 255, 255, 0.07);
-    --border-hover: rgba(255, 255, 255, 0.15);
+    --bg-dark: #050608;
+    --bg-card: rgba(12, 14, 18, 0.45);
+    --border-light: rgba(255, 255, 255, 0.05);
+    --border-hover: rgba(0, 242, 143, 0.2);
     
     /* Harmonious Cyber Accents */
-    --accent-blue: hsl(199, 89%, 48%);
-    --accent-blue-glow: hsla(199, 89%, 48%, 0.4);
-    --accent-purple: hsl(271, 76%, 53%);
-    --accent-purple-glow: hsla(271, 76%, 53%, 0.3);
-    --accent-green: hsl(142, 71%, 45%);
-    --accent-green-glow: hsla(142, 71%, 45%, 0.12);
-    --accent-pink: hsl(330, 81%, 60%);
+    --accent-blue: #00f28f; /* Emerald green */
+    --accent-blue-glow: rgba(0, 242, 143, 0.25);
+    --accent-purple: #34d399; /* Mint green */
+    --accent-purple-glow: rgba(52, 211, 153, 0.15);
+    --accent-green: #ff9f1c; /* Tactical Amber */
+    --accent-green-glow: rgba(255, 159, 28, 0.12);
+    --accent-pink: #05ff8f;
     
     /* Text colors */
-    --text-primary: hsl(210, 40%, 98%);
-    --text-secondary: hsl(215, 20%, 75%);
-    --text-muted: hsl(215, 16%, 57%);
+    --text-primary: #f3f4f6;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
     
     /* Fonts */
-    --font-heading: 'Space Grotesk', sans-serif;
-    --font-body: 'Outfit', sans-serif;
+    --font-heading: 'Sora', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+    --font-mono: 'Fira Code', monospace;
     
     /* Transition standard */
     --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
@@ -111,7 +112,7 @@ body {
     left: 0;
     width: 100%;
     z-index: 1000;
-    background: rgba(15, 23, 42, 0.3);
+    background: rgba(5, 6, 8, 0.35);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border-light);
@@ -121,7 +122,7 @@ body {
 
 .navbar.scrolled {
     padding: 0.8rem 0;
-    background: rgba(15, 23, 42, 0.7);
+    background: rgba(5, 6, 8, 0.8);
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
@@ -1506,7 +1507,7 @@ body.no-scroll {
         right: -100%;
         width: 280px;
         height: 100vh;
-        background: rgba(15, 23, 42, 0.95);
+        background: rgba(8, 10, 14, 0.96);
         backdrop-filter: blur(25px);
         -webkit-backdrop-filter: blur(25px);
         border-left: 1px solid var(--border-light);
@@ -1898,12 +1899,12 @@ body.no-scroll {
 .terminal-preloader-window {
     width: 90%;
     max-width: 540px;
-    background: rgba(10, 16, 30, 0.85);
+    background: rgba(8, 10, 14, 0.88);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border: 1px solid var(--border-light);
     border-radius: 12px;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.05);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 242, 143, 0.05);
     overflow: hidden;
     font-family: 'Fira Code', 'Courier New', Courier, monospace;
     z-index: 10;
