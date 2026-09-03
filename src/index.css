@@ -106,93 +106,144 @@ body {
 }
 
 /* Header & Navbar Navigation */
+/* Navigation Bar - Floating Glass Capsule */
 .navbar {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    top: 1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: calc(100% - 3rem);
+    max-width: 1200px;
     z-index: 1000;
-    background: rgba(5, 6, 8, 0.35);
+    padding: 0.75rem 1.8rem;
+    background: rgba(12, 16, 24, 0.65);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border-bottom: 1px solid var(--border-light);
-    transition: var(--transition-smooth);
-    padding: 1.2rem 0;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 242, 143, 0.05);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    animation: navHeaderSlideDown 0.8s ease-out;
+}
+
+@keyframes navHeaderSlideDown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -25px);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
 }
 
 .navbar.scrolled {
-    padding: 0.8rem 0;
-    background: rgba(5, 6, 8, 0.8);
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    top: 0.6rem;
+    padding: 0.6rem 1.8rem;
+    background: rgba(8, 10, 16, 0.85);
+    border-color: rgba(0, 242, 143, 0.25);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 242, 143, 0.15);
 }
 
 .nav-container {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+/* Nav Logo with Interactive Hover Animation */
 .nav-logo {
     font-family: var(--font-heading);
-    font-size: 1.5rem;
+    font-size: 1.45rem;
     font-weight: 700;
     color: var(--text-primary);
     text-decoration: none;
     letter-spacing: -0.5px;
     display: flex;
     align-items: center;
-    transition: var(--transition-smooth);
+    gap: 2px;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-logo:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
 }
 
 .logo-symbol {
     color: var(--accent-blue);
-    opacity: 0.8;
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
 }
 
 .logo-accent {
     color: var(--accent-purple);
+    transition: color 0.3s ease;
+}
+
+.nav-logo:hover .logo-symbol:first-child {
+    transform: translateX(-4px) scale(1.15) rotate(-5deg);
+    color: var(--accent-green);
+    text-shadow: 0 0 10px var(--accent-green);
+}
+
+.nav-logo:hover .logo-symbol:last-child {
+    transform: translateX(4px) scale(1.15) rotate(5deg);
+    color: var(--accent-purple);
+    text-shadow: 0 0 10px var(--accent-purple);
+}
+
+.nav-logo:hover .logo-accent {
+    color: var(--accent-blue);
 }
 
 .nav-menu {
     display: flex;
-    gap: 2.5rem;
+    gap: 1.5rem;
+    align-items: center;
 }
 
+/* Animated Nav Links & Active Pill Indicator */
 .nav-link {
     font-family: var(--font-heading);
-    font-size: 0.95rem;
+    font-size: 0.92rem;
     font-weight: 500;
     color: var(--text-secondary);
     text-decoration: none;
     position: relative;
-    padding: 0.3rem 0;
-    transition: var(--transition-smooth);
+    padding: 0.4rem 0.8rem;
+    border-radius: 10px;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .nav-link::after {
     content: '';
     position: absolute;
-    bottom: 0;
-    left: 0;
+    bottom: 2px;
+    left: 50%;
+    transform: translateX(-50%);
     width: 0%;
     height: 2px;
-    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
-    transition: var(--transition-smooth);
+    background: linear-gradient(90deg, var(--accent-green), var(--accent-blue), var(--accent-purple));
+    border-radius: 2px;
+    transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.nav-link:hover, .nav-link.active {
+.nav-link:hover {
     color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.nav-link.active {
+    color: var(--accent-green);
+    background: rgba(0, 242, 143, 0.08);
+    font-weight: 600;
 }
 
 .nav-link:hover::after, .nav-link.active::after {
-    width: 100%;
+    width: 75%;
 }
 
 .menu-toggle {
@@ -926,20 +977,24 @@ body {
     color: var(--accent-pink);
 }
 
-/* Footer Styles */
+/* Footer Styles - Bounded Glass Card */
 .footer {
-    background: var(--bg-card);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-top: 1px solid var(--border-light);
-    padding: 5rem 2rem 3rem;
+    max-width: 1200px;
+    width: calc(100% - 3rem);
+    margin: 4rem auto 3rem auto;
+    background: rgba(12, 16, 24, 0.65);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+    padding: 4rem 3rem 2.5rem;
     position: relative;
     z-index: 10;
-    box-shadow: 0 -10px 40px -15px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.6), 0 0 30px rgba(0, 242, 143, 0.04);
 }
 
 .footer-container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
