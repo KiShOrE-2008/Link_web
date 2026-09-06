@@ -71,7 +71,7 @@ export default function Hero() {
                     </a>
                     <a href="https://www.linkedin.com/in/kishore-k-v-090491349/" target="_blank"
                         rel="noopener noreferrer" className="social-icon-btn" id="heroSocialLinkedin" title="LinkedIn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             strokeLinecap="round" strokeLinejoin="round">
                             <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
                             </path>
@@ -85,7 +85,7 @@ export default function Hero() {
                     </a>
                     <a href="https://codolio.com/profile/Kishore2008" target="_blank" rel="noopener noreferrer"
                         className="social-icon-btn" id="heroSocialCodolio" title="Codolio">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="16 18 22 12 16 6"></polyline>
                             <polyline points="8 6 2 12 8 18"></polyline>
@@ -94,7 +94,7 @@ export default function Hero() {
                     <a href="https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008"
                         target="_blank" rel="noopener noreferrer" className="social-icon-btn" id="heroSocialSkillrack"
                         title="SkillRack">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             strokeLinecap="round" strokeLinejoin="round">
                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                         </svg>
