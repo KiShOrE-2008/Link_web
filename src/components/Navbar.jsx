@@ -3,33 +3,27 @@ import React, { useState, useEffect } from 'react';
 export default function Navbar({ activeSection }) {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [mobileJourneyExpanded, setMobileJourneyExpanded] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
-            if (window.scrollY > 50) {
-                setIsScrolled(true);
-            } else {
-                setIsScrolled(false);
-            }
+            setIsScrolled(window.scrollY > 40);
         };
-
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Toggle body scrolling when menu is open
+    // Body scroll locking when mobile menu is active
     useEffect(() => {
         if (isMenuOpen) {
             document.body.classList.add('no-scroll');
         } else {
             document.body.classList.remove('no-scroll');
         }
-        return () => {
-            document.body.classList.remove('no-scroll');
-        };
+        return () => document.body.classList.remove('no-scroll');
     }, [isMenuOpen]);
 
-    // Close menu when clicking outside (mobile layout)
+    // Close mobile menu on outside click
     useEffect(() => {
         const handleOutsideClick = (e) => {
             const navMenu = document.getElementById('navMenu');
@@ -45,30 +39,36 @@ export default function Navbar({ activeSection }) {
 
     const handleLinkClick = () => {
         setIsMenuOpen(false);
+        setMobileJourneyExpanded(false);
     };
 
-    const navLinks = [
-        { id: 'hero', label: 'Home' },
-        { id: 'about', label: 'About' },
+    // Check if any section inside Journey is currently active
+    const isJourneyActive = ['education', 'experience', 'certifications'].includes(activeSection);
+
+    const journeySubLinks = [
         { id: 'education', label: 'Education' },
         { id: 'experience', label: 'Experience' },
-        { id: 'skills', label: 'Skills' },
         { id: 'certifications', label: 'Certifications' },
-        { id: 'projects', label: 'Projects' },
-        { id: 'activity', label: 'Coding Activity' },
-        { id: 'contact', label: 'Contact' },
     ];
 
     return (
         <header className={`navbar ${isScrolled ? 'scrolled' : ''}`} id="mainNavbar">
             <div className="nav-container">
+                {/* Brand Identity Logo */}
                 <a href="#hero" className="nav-logo" id="navLogo" onClick={handleLinkClick}>
-                    <span className="logo-symbol">&lt;</span>Kishore<span className="logo-accent">.kv</span><span className="logo-symbol">/&gt;</span>
+                    <span className="logo-sym-open">&lt;</span>
+                    <span className="logo-name">Kishore</span>
+                    <span className="logo-ext">.kv</span>
+                    <span className="logo-sym-close">/&gt;</span>
                 </a>
-                
-                <button 
-                    className={`menu-toggle ${isMenuOpen ? 'open' : ''}`} 
-                    id="menuToggle" 
+
+                {/* Subtle Vertical Divider */}
+                <div className="nav-divider"></div>
+
+                {/* Mobile Menu Hamburger Toggle */}
+                <button
+                    className={`menu-toggle ${isMenuOpen ? 'open' : ''}`}
+                    id="menuToggle"
                     aria-label="Toggle Navigation Menu"
                     onClick={() => setIsMenuOpen(!isMenuOpen)}
                 >
@@ -76,19 +76,100 @@ export default function Navbar({ activeSection }) {
                     <span></span>
                     <span></span>
                 </button>
-                
+
+                {/* Navigation Menu */}
                 <nav className={`nav-menu ${isMenuOpen ? 'open' : ''}`} id="navMenu">
-                    {navLinks.map((link) => (
+                    {/* Home Link */}
+                    <a
+                        href="#hero"
+                        className={`nav-link ${activeSection === 'hero' ? 'active' : ''}`}
+                        id="linkHome"
+                        onClick={handleLinkClick}
+                    >
+                        Home
+                    </a>
+
+                    {/* About Link */}
+                    <a
+                        href="#about"
+                        className={`nav-link ${activeSection === 'about' ? 'active' : ''}`}
+                        id="linkAbout"
+                        onClick={handleLinkClick}
+                    >
+                        About
+                    </a>
+
+                    {/* Journey Grouped Dropdown */}
+                    <div className={`nav-dropdown-wrapper ${isJourneyActive ? 'active-parent' : ''}`}>
                         <a
-                            key={link.id}
-                            href={`#${link.id}`}
-                            className={`nav-link ${activeSection === link.id ? 'active' : ''}`}
-                            id={`link${link.id.charAt(0).toUpperCase() + link.id.slice(1)}`}
-                            onClick={handleLinkClick}
+                            href="#education"
+                            className={`nav-link dropdown-trigger ${isJourneyActive ? 'active' : ''}`}
+                            onClick={(e) => {
+                                if (window.innerWidth < 992) {
+                                    e.preventDefault();
+                                    setMobileJourneyExpanded(!mobileJourneyExpanded);
+                                } else {
+                                    handleLinkClick();
+                                }
+                            }}
                         >
-                            {link.label}
+                            Journey <span className="dropdown-caret">▾</span>
                         </a>
-                    ))}
+
+                        {/* Desktop & Mobile Glass Dropdown Menu */}
+                        <div className={`nav-dropdown-menu ${mobileJourneyExpanded ? 'show-mobile' : ''}`}>
+                            {journeySubLinks.map((sub) => (
+                                <a
+                                    key={sub.id}
+                                    href={`#${sub.id}`}
+                                    className={`dropdown-item ${activeSection === sub.id ? 'active' : ''}`}
+                                    onClick={handleLinkClick}
+                                >
+                                    {sub.label}
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Skills Link */}
+                    <a
+                        href="#skills"
+                        className={`nav-link ${activeSection === 'skills' ? 'active' : ''}`}
+                        id="linkSkills"
+                        onClick={handleLinkClick}
+                    >
+                        Skills
+                    </a>
+
+                    {/* Projects Link */}
+                    <a
+                        href="#projects"
+                        className={`nav-link ${activeSection === 'projects' ? 'active' : ''}`}
+                        id="linkProjects"
+                        onClick={handleLinkClick}
+                    >
+                        Projects
+                    </a>
+
+                    {/* Coding Activity Link */}
+                    <a
+                        href="#activity"
+                        className={`nav-link ${activeSection === 'activity' ? 'active' : ''}`}
+                        id="linkActivity"
+                        onClick={handleLinkClick}
+                    >
+                        Activity
+                    </a>
+
+                    {/* Contact CTA Endpoint */}
+                    <a
+                        href="#contact"
+                        className={`nav-contact-btn ${activeSection === 'contact' ? 'active' : ''}`}
+                        id="linkContact"
+                        onClick={handleLinkClick}
+                    >
+                        Contact <span className="cta-arrow">↗</span>
+                    </a>
                 </nav>
             </div>
         </header>
