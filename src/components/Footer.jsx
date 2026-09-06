@@ -1,6 +1,48 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Footer() {
+    const footerRef = useRef(null);
+
+    useGSAP(() => {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) return;
+
+        gsap.fromTo('.footer-grid',
+            { y: 30, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: footerRef.current.querySelector('.footer-grid'),
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        gsap.fromTo('.footer-bottom',
+            { y: 15, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.6,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: footerRef.current.querySelector('.footer-bottom'),
+                    start: 'top 90%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+    }, { scope: footerRef });
+
     const handleScrollToTop = () => {
         window.scrollTo({
             top: 0,
@@ -9,7 +51,7 @@ export default function Footer() {
     };
 
     return (
-        <footer className="footer">
+        <footer className="footer" ref={footerRef}>
             <div className="footer-container">
                 <div className="footer-grid">
                     {/* Brand Section */}
@@ -78,4 +120,5 @@ export default function Footer() {
         </footer>
     );
 }
+
 

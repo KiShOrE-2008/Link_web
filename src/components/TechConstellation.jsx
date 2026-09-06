@@ -1,4 +1,9 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const coreTechNodes = [
     { label: 'Python', angle: 0, color: '#3572A5', icon: '🐍' },
@@ -12,11 +17,45 @@ const coreTechNodes = [
 ];
 
 export default function TechConstellation() {
+    const containerRef = useRef(null);
     const center = { x: 250, y: 250 };
     const radius = 170;
 
+    useGSAP(() => {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) return;
+
+        const tl = gsap.timeline({
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: 'top 80%',
+                toggleActions: 'play none none reverse'
+            }
+        });
+
+        tl.fromTo('.constellation-header',
+            { y: 25, opacity: 0 },
+            { y: 0, opacity: 1, duration: 0.6 }
+        )
+        .fromTo('.central-node-group',
+            { scale: 0, opacity: 0, transformOrigin: '50% 50%' },
+            { scale: 1, opacity: 1, duration: 0.7, ease: 'back.out(1.7)' },
+            '-=0.3'
+        )
+        .fromTo('.constellation-line',
+            { opacity: 0, strokeDasharray: 200, strokeDashoffset: 200 },
+            { opacity: 0.6, strokeDashoffset: 0, duration: 0.8, stagger: 0.05, ease: 'power2.out' },
+            '-=0.4'
+        )
+        .fromTo('.satellite-node-group',
+            { scale: 0, opacity: 0, transformOrigin: '50% 50%' },
+            { scale: 1, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'back.out(1.5)' },
+            '-=0.6'
+        );
+    }, { scope: containerRef });
+
     return (
-        <div className="constellation-wrapper">
+        <div className="constellation-wrapper" ref={containerRef}>
             <div className="constellation-header">
                 <span className="section-eyebrow">SYSTEM CONSTELLATION</span>
                 <h3 className="constellation-title">Core Technology Ecosystem</h3>
@@ -98,3 +137,4 @@ export default function TechConstellation() {
         </div>
     );
 }
+

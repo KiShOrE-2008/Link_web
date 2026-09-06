@@ -1,9 +1,67 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import TiltCard from './TiltCard';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Experience({ onOpenLightbox }) {
+    const expRef = useRef(null);
+
+    useGSAP(() => {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) return;
+
+        gsap.fromTo('.section-header',
+            { y: 30, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: expRef.current.querySelector('.section-header'),
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        gsap.fromTo('.timeline-content',
+            { y: 40, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: expRef.current.querySelector('.timeline'),
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        gsap.fromTo('.exp-tech-tag',
+            { scale: 0.8, opacity: 0 },
+            {
+                scale: 1,
+                opacity: 1,
+                duration: 0.5,
+                stagger: 0.08,
+                ease: 'back.out(1.5)',
+                scrollTrigger: {
+                    trigger: expRef.current.querySelector('.experience-tech-badges'),
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+    }, { scope: expRef });
+
     return (
-        <>
+        <div ref={expRef} className="experience-container-inner" style={{ width: '100%' }}>
             <div className="section-header">
                 <span className="section-eyebrow">03 / EXPERIENCE</span>
                 <h2 className="section-title">Work Experience & Internships</h2>
@@ -42,6 +100,7 @@ export default function Experience({ onOpenLightbox }) {
                     </TiltCard>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
+

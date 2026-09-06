@@ -1,5 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import TiltCard from './TiltCard';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const projectsData = [
     {
@@ -65,11 +70,78 @@ const projectsData = [
 ];
 
 export default function Projects() {
+    const projectsRef = useRef(null);
     const featuredProject = projectsData.find((p) => p.isFeatured) || projectsData[0];
     const secondaryProjects = projectsData.filter((p) => p.id !== featuredProject.id);
 
+    useGSAP(() => {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) return;
+
+        gsap.fromTo('.section-header',
+            { y: 30, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: projectsRef.current.querySelector('.section-header'),
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        // Featured Project Hero Entrance
+        gsap.fromTo('.featured-project-card',
+            { y: 40, opacity: 0, scale: 0.98 },
+            {
+                y: 0,
+                opacity: 1,
+                scale: 1,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: projectsRef.current.querySelector('.featured-project-container'),
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        // Subtle Parallax on Featured Project Body
+        gsap.to('.featured-project-body', {
+            yPercent: -4,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: projectsRef.current.querySelector('.featured-project-container'),
+                start: 'top bottom',
+                end: 'bottom top',
+                scrub: true
+            }
+        });
+
+        // Secondary Projects Grid Stagger
+        gsap.fromTo('.project-card-wrapper',
+            { y: 35, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.6,
+                stagger: 0.1,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: projectsRef.current.querySelector('.secondary-projects-grid'),
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+    }, { scope: projectsRef });
+
     return (
-        <>
+        <div ref={projectsRef} className="projects-container-inner" style={{ width: '100%' }}>
             <div className="section-header">
                 <span className="section-eyebrow">06 / FEATURED WORK</span>
                 <h2 className="section-title">Projects Showcase</h2>
@@ -144,6 +216,7 @@ export default function Projects() {
                     </article>
                 ))}
             </div>
-        </>
+        </div>
     );
 }
+

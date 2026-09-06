@@ -1,5 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import TiltCard from './TiltCard';
+
+gsap.registerPlugin(ScrollTrigger);
 
 function AnimatedStat({ value, label, suffix = "+" }) {
     const [count, setCount] = useState(0);
@@ -58,8 +63,79 @@ function AnimatedStat({ value, label, suffix = "+" }) {
 }
 
 export default function About() {
+    const aboutRef = useRef(null);
+
+    useGSAP(() => {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) return;
+
+        // Section header reveal
+        gsap.fromTo('.section-header',
+            { y: 30, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: aboutRef.current.querySelector('.section-header'),
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        // Left card & Right system profile card directional reveal
+        gsap.fromTo('.text-card',
+            { x: -35, opacity: 0 },
+            {
+                x: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: aboutRef.current.querySelector('.about-grid'),
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        gsap.fromTo('.system-profile-wrapper',
+            { x: 35, opacity: 0 },
+            {
+                x: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: aboutRef.current.querySelector('.about-grid'),
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        // Capability Cards Staggered Reveal
+        gsap.fromTo('.capability-card',
+            { y: 35, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                stagger: 0.12,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: aboutRef.current.querySelector('.capability-cards-grid'),
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+    }, { scope: aboutRef });
+
     return (
-        <>
+        <div ref={aboutRef} className="about-container-inner" style={{ width: '100%' }}>
             <div className="section-header">
                 <span className="section-eyebrow">01 / PROFILE</span>
                 <h2 className="section-title">About Me</h2>
@@ -158,6 +234,7 @@ export default function About() {
                     <p className="capability-desc">Python • JavaScript • React • Web Applications</p>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
+

@@ -1,12 +1,84 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Contact() {
+    const contactRef = useRef(null);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
     const [formStatus, setFormStatus] = useState('');
     const [statusClass, setStatusClass] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    useGSAP(() => {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) return;
+
+        gsap.fromTo('.section-header',
+            { y: 30, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: contactRef.current.querySelector('.section-header'),
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        gsap.fromTo('.info-card',
+            { x: -35, opacity: 0 },
+            {
+                x: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: contactRef.current.querySelector('.contact-grid'),
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        gsap.fromTo('.form-card',
+            { x: 35, opacity: 0 },
+            {
+                x: 0,
+                opacity: 1,
+                duration: 0.8,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: contactRef.current.querySelector('.contact-grid'),
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        gsap.fromTo('.form-group',
+            { y: 20, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.5,
+                stagger: 0.08,
+                ease: 'power2.out',
+                scrollTrigger: {
+                    trigger: contactRef.current.querySelector('#contactForm'),
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+    }, { scope: contactRef });
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -54,7 +126,7 @@ export default function Contact() {
     };
 
     return (
-        <>
+        <div ref={contactRef} className="contact-container-inner" style={{ width: '100%' }}>
             <div className="section-header">
                 <span className="section-eyebrow">08 / CONTACT INTERFACE</span>
                 <h2 className="section-title">Get In Touch</h2>
@@ -155,7 +227,8 @@ export default function Contact() {
                     </form>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
+
 

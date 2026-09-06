@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const LeetCodeIcon = ({ size = 22, className = "" }) => (
     <img
@@ -27,8 +32,46 @@ const GitHubIcon = ({ size = 22, className = "", fill = "currentColor" }) => (
 );
 
 export default function CodingActivity() {
+    const activityRef = useRef(null);
     const [activeModal, setActiveModal] = useState(null); // 'github' | 'leetcode' | null
     const [hoveredContestIndex, setHoveredContestIndex] = useState(null);
+
+    useGSAP(() => {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) return;
+
+        gsap.fromTo('.section-header',
+            { y: 30, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: activityRef.current.querySelector('.section-header'),
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        gsap.fromTo('.platform-card',
+            { y: 40, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                stagger: 0.15,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: activityRef.current.querySelector('.platform-boxes-grid'),
+                    start: 'top 80%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+    }, { scope: activityRef });
+
 
     const [leetcodeData, setLeetcodeData] = useState({
         solvedProblem: 251,
@@ -157,7 +200,7 @@ export default function CodingActivity() {
     };
 
     return (
-        <section className="activity-container">
+        <section className="activity-container" ref={activityRef}>
             <div className="section-header">
                 <span className="section-eyebrow">07 / CODING DASHBOARD</span>
                 <h2 className="section-title">Coding & Contribution Activity</h2>

@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import TiltCard from './TiltCard';
+
+gsap.registerPlugin(ScrollTrigger);
 
 const textArray = [
     "B.Tech Information Technology Student",
@@ -9,6 +14,7 @@ const textArray = [
 ];
 
 export default function Hero() {
+    const heroRef = useRef(null);
     const [typedText, setTypedText] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
     const [loopNum, setLoopNum] = useState(0);
@@ -21,6 +27,77 @@ export default function Hero() {
         skills: 29,
         domains: 5
     });
+
+    // GSAP Entrance Sequence & Scroll Parallax Exit
+    useGSAP(() => {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) return;
+
+        const tl = gsap.timeline({ defaults: { ease: 'power3.out', duration: 0.8 } });
+
+        // Layered cinematic entrance sequence
+        tl.fromTo('.hero-badge', 
+            { y: -15, opacity: 0 }, 
+            { y: 0, opacity: 1, duration: 0.6 }
+        )
+        .fromTo('.hero-title', 
+            { y: 35, opacity: 0, clipPath: 'inset(0 0 100% 0)' }, 
+            { y: 0, opacity: 1, clipPath: 'inset(0 0 0% 0)', duration: 0.8 },
+            '-=0.4'
+        )
+        .fromTo(['.hero-subtitle', '.hero-description'], 
+            { y: 25, opacity: 0 }, 
+            { y: 0, opacity: 1, stagger: 0.15, duration: 0.7 },
+            '-=0.4'
+        )
+        .fromTo('.hero-ctas .btn', 
+            { y: 20, opacity: 0 }, 
+            { y: 0, opacity: 1, stagger: 0.12, duration: 0.6 },
+            '-=0.3'
+        )
+        .fromTo('.hero-socials .social-icon-btn', 
+            { scale: 0.8, opacity: 0 }, 
+            { scale: 1, opacity: 1, stagger: 0.08, duration: 0.5 },
+            '-=0.3'
+        )
+        .fromTo('.stat-strip-item', 
+            { y: 20, opacity: 0 }, 
+            { y: 0, opacity: 1, stagger: 0.08, duration: 0.6 },
+            '-=0.3'
+        )
+        .fromTo('.hero-visual-wrapper', 
+            { y: 40, scale: 0.92, opacity: 0 }, 
+            { y: 0, scale: 1, opacity: 1, duration: 0.9 },
+            '-=0.8'
+        );
+
+        // ScrollTrigger Parallax & Exit
+        gsap.to('.hero-content', {
+            yPercent: -15,
+            opacity: 0.35,
+            scale: 0.97,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: heroRef.current,
+                start: 'top top',
+                end: 'bottom 20%',
+                scrub: true
+            }
+        });
+
+        gsap.to('.hero-visual-wrapper', {
+            yPercent: -25,
+            opacity: 0.3,
+            scale: 0.95,
+            ease: 'none',
+            scrollTrigger: {
+                trigger: heroRef.current,
+                start: 'top top',
+                end: 'bottom 20%',
+                scrub: true
+            }
+        });
+    }, { scope: heroRef });
 
     useEffect(() => {
         let isMounted = true;
@@ -76,7 +153,7 @@ export default function Hero() {
     }, [typedText, isDeleting, loopNum, typingSpeed]);
 
     return (
-        <>
+        <div className="hero-container-inner" ref={heroRef} style={{ width: '100%', display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between', alignItems: 'center' }}>
             <div className="hero-content">
                 <div className="badge hero-badge">
                     <span className="badge-pulse"></span> ● AVAILABLE FOR OPPORTUNITIES
@@ -189,7 +266,8 @@ export default function Hero() {
                     </div>
                 </TiltCard>
             </div>
-        </>
+        </div>
     );
 }
+
 

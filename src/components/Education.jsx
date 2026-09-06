@@ -1,9 +1,90 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 import TiltCard from './TiltCard';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export default function Education() {
+    const eduRef = useRef(null);
+
+    useGSAP(() => {
+        const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (isReducedMotion) return;
+
+        // Section header reveal
+        gsap.fromTo('.section-header',
+            { y: 30, opacity: 0 },
+            {
+                y: 0,
+                opacity: 1,
+                duration: 0.7,
+                ease: 'power3.out',
+                scrollTrigger: {
+                    trigger: eduRef.current.querySelector('.section-header'),
+                    start: 'top 85%',
+                    toggleActions: 'play none none reverse'
+                }
+            }
+        );
+
+        // Timeline Line Progress Drawing
+        gsap.fromTo('.edu-timeline-line',
+            { scaleY: 0, transformOrigin: 'top center' },
+            {
+                scaleY: 1,
+                ease: 'none',
+                scrollTrigger: {
+                    trigger: eduRef.current.querySelector('.education-timeline-container'),
+                    start: 'top 75%',
+                    end: 'bottom 25%',
+                    scrub: 1
+                }
+            }
+        );
+
+        // Timeline Items & Nodes Entrance Reveal
+        const items = gsap.utils.toArray('.edu-timeline-item');
+        items.forEach((item, index) => {
+            const card = item.querySelector('.edu-timeline-card');
+            const node = item.querySelector('.edu-timeline-node');
+            const xOffset = index % 2 === 0 ? -35 : 35;
+
+            gsap.fromTo(node,
+                { scale: 0.6, opacity: 0.3 },
+                {
+                    scale: 1,
+                    opacity: 1,
+                    duration: 0.5,
+                    ease: 'back.out(1.5)',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+
+            gsap.fromTo(card,
+                { x: xOffset, opacity: 0 },
+                {
+                    x: 0,
+                    opacity: 1,
+                    duration: 0.8,
+                    ease: 'power3.out',
+                    scrollTrigger: {
+                        trigger: item,
+                        start: 'top 80%',
+                        toggleActions: 'play none none reverse'
+                    }
+                }
+            );
+        });
+    }, { scope: eduRef });
+
     return (
-        <>
+        <div ref={eduRef} className="education-container-inner" style={{ width: '100%' }}>
             <div className="section-header">
                 <span className="section-eyebrow">02 / EDUCATION</span>
                 <h2 className="section-title">Education & Academic Journey</h2>
@@ -65,6 +146,7 @@ export default function Education() {
                     </TiltCard>
                 </div>
             </div>
-        </>
+        </div>
     );
 }
+
