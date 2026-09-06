@@ -159,6 +159,7 @@ export default function CodingActivity() {
     return (
         <section className="activity-container">
             <div className="section-header">
+                <span className="section-eyebrow">07 / CODING DASHBOARD</span>
                 <h2 className="section-title">Coding & Contribution Activity</h2>
                 <div className="section-divider"></div>
             </div>

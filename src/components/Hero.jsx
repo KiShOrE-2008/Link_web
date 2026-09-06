@@ -14,6 +14,39 @@ export default function Hero() {
     const [loopNum, setLoopNum] = useState(0);
     const [typingSpeed, setTypingSpeed] = useState(100);
 
+    // Live API stats for Quick-Stats Strip
+    const [stats, setStats] = useState({
+        repos: 19,
+        problems: 251,
+        skills: 29,
+        domains: 5
+    });
+
+    useEffect(() => {
+        let isMounted = true;
+        // Fetch live LeetCode stats with fallback
+        fetch('https://alfa-leetcode-api.onrender.com/Kishore2008/solved')
+            .then((res) => res.ok ? res.json() : null)
+            .then((data) => {
+                if (isMounted && data && data.solvedProblem) {
+                    setStats((prev) => ({ ...prev, problems: data.solvedProblem }));
+                }
+            })
+            .catch(() => {});
+
+        // Fetch live GitHub User details
+        fetch('https://api.github.com/users/KiShOrE-2008')
+            .then((res) => res.ok ? res.json() : null)
+            .then((data) => {
+                if (isMounted && data && data.public_repos) {
+                    setStats((prev) => ({ ...prev, repos: data.public_repos }));
+                }
+            })
+            .catch(() => {});
+
+        return () => { isMounted = false; };
+    }, []);
+
     useEffect(() => {
         let timer;
         const currentString = textArray[loopNum % textArray.length];
@@ -45,7 +78,9 @@ export default function Hero() {
     return (
         <>
             <div className="hero-content">
-                <div className="badge hero-badge">Welcome to my Space</div>
+                <div className="badge hero-badge">
+                    <span className="badge-pulse"></span> ● AVAILABLE FOR OPPORTUNITIES
+                </div>
                 <h1 className="hero-title">
                     Hi, I'm <span className="gradient-text">Kishore K V</span>
                 </h1>
@@ -71,7 +106,7 @@ export default function Hero() {
                     </a>
                     <a href="https://www.linkedin.com/in/kishore-k-v-090491349/" target="_blank"
                         rel="noopener noreferrer" className="social-icon-btn" id="heroSocialLinkedin" title="LinkedIn">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             strokeLinecap="round" strokeLinejoin="round">
                             <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z">
                             </path>
@@ -85,7 +120,7 @@ export default function Hero() {
                     </a>
                     <a href="https://codolio.com/profile/Kishore2008" target="_blank" rel="noopener noreferrer"
                         className="social-icon-btn" id="heroSocialCodolio" title="Codolio">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             strokeLinecap="round" strokeLinejoin="round">
                             <polyline points="16 18 22 12 16 6"></polyline>
                             <polyline points="8 6 2 12 8 18"></polyline>
@@ -94,11 +129,34 @@ export default function Hero() {
                     <a href="https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008"
                         target="_blank" rel="noopener noreferrer" className="social-icon-btn" id="heroSocialSkillrack"
                         title="SkillRack">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
                             strokeLinecap="round" strokeLinejoin="round">
                             <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
                         </svg>
                     </a>
+                </div>
+
+                {/* Quick-Stats Strip */}
+                <div className="quick-stats-strip">
+                    <div className="stat-strip-item">
+                        <span className="stat-strip-val">{stats.skills}</span>
+                        <span className="stat-strip-lbl">Technical Skills</span>
+                    </div>
+                    <div className="stat-strip-divider"></div>
+                    <div className="stat-strip-item">
+                        <span className="stat-strip-val">{stats.repos}</span>
+                        <span className="stat-strip-lbl">Repositories</span>
+                    </div>
+                    <div className="stat-strip-divider"></div>
+                    <div className="stat-strip-item">
+                        <span className="stat-strip-val">{stats.domains}</span>
+                        <span className="stat-strip-lbl">Skill Domains</span>
+                    </div>
+                    <div className="stat-strip-divider"></div>
+                    <div className="stat-strip-item">
+                        <span className="stat-strip-val">{stats.problems}+</span>
+                        <span className="stat-strip-lbl">Problems Solved</span>
+                    </div>
                 </div>
             </div>
             
@@ -134,3 +192,4 @@ export default function Hero() {
         </>
     );
 }
+

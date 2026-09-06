@@ -14,13 +14,30 @@ import Footer from './components/Footer';
 import LightboxModal from './components/LightboxModal';
 import Preloader from './components/Preloader';
 import NetworkBackground from './components/NetworkBackground';
+import TechConstellation from './components/TechConstellation';
 
 export default function App() {
     const [isLoading, setIsLoading] = useState(true);
     const [activeSection, setActiveSection] = useState('hero');
     const [isLightboxOpen, setIsLightboxOpen] = useState(false);
     const [currentImgIndex, setCurrentImgIndex] = useState(0);
+    const [scrollProgress, setScrollProgress] = useState(0);
     const glowRef1 = useRef(null);
+
+    // Scroll Progress Indicator Tracker
+    useEffect(() => {
+        const handleScrollProgress = () => {
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            if (totalHeight > 0) {
+                const currentProgress = (window.scrollY / totalHeight) * 100;
+                setScrollProgress(currentProgress);
+            }
+        };
+
+        window.addEventListener('scroll', handleScrollProgress);
+        handleScrollProgress();
+        return () => window.removeEventListener('scroll', handleScrollProgress);
+    }, []);
 
     // Mouse Glow Follower effect
     useEffect(() => {
@@ -77,6 +94,13 @@ export default function App() {
 
     return (
         <div className="app-container">
+            {/* Top Scroll Progress Indicator */}
+            <div 
+                className="top-scroll-progress-bar" 
+                style={{ width: `${scrollProgress}%` }}
+                aria-hidden="true"
+            ></div>
+
             {isLoading && (
                 <Preloader onComplete={() => setIsLoading(false)} />
             )}
@@ -99,6 +123,11 @@ export default function App() {
                 <ScrollSection id="about" className="about-section">
                     <About />
                 </ScrollSection>
+
+                {/* Tech Ecosystem Constellation Signature */}
+                <div className="section-container constellation-section">
+                    <TechConstellation />
+                </div>
 
                 <ScrollSection id="education" className="education-section">
                     <Education />
@@ -142,3 +171,4 @@ export default function App() {
         </div>
     );
 }
+

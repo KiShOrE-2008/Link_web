@@ -5,12 +5,13 @@ export default function Experience({ onOpenLightbox }) {
     return (
         <>
             <div className="section-header">
-                <h2 className="section-title">Work Experience</h2>
+                <span className="section-eyebrow">03 / EXPERIENCE</span>
+                <h2 className="section-title">Work Experience & Internships</h2>
                 <div className="section-divider"></div>
             </div>
 
             <div className="timeline">
-                {/* UP Police Internship */}
+                {/* UP Police Internship Card */}
                 <div className="timeline-item">
                     <TiltCard 
                         className="timeline-content tilt-card clickable-card"
@@ -19,7 +20,7 @@ export default function Experience({ onOpenLightbox }) {
                     >
                         <div className="timeline-header">
                             <span className="time-period">June 2026</span>
-                            <span className="view-cert-badge">🔍 View Gallery</span>
+                            <span className="view-cert-badge">🔍 View 7-Photo Gallery</span>
                             <span className="location">Moradabad, India</span>
                         </div>
                         <h3 className="role-title">Cyber Security Student Intern</h3>
@@ -31,6 +32,12 @@ export default function Experience({ onOpenLightbox }) {
                                 <li>Learned about cybercrime investigation methodologies, digital security practices, and emerging cyber threats.</li>
                                 <li>Collaborated with industry experts, law enforcement professionals, and peers during technical sessions and workshops.</li>
                             </ul>
+                            <div className="experience-tech-badges">
+                                <span className="exp-tech-tag">Cybersecurity</span>
+                                <span className="exp-tech-tag">Digital Forensics</span>
+                                <span className="exp-tech-tag">Network Auditing</span>
+                                <span className="exp-tech-tag">Cyber Awareness</span>
+                            </div>
                         </div>
                     </TiltCard>
                 </div>

@@ -71,9 +71,11 @@ export default function Footer() {
 
                 <div className="footer-bottom">
                     <p className="copyright">&copy; {new Date().getFullYear()} Kishore K V. All rights reserved.</p>
-                    <p className="footer-tech">Designed & Engineered with ❤️ and secure code principles.</p>
+                    <span className="footer-system-status">● SYSTEM ONLINE</span>
+                    <p className="footer-tech">Designed & Engineered with React + Vite</p>
                 </div>
             </div>
         </footer>
     );
 }
+

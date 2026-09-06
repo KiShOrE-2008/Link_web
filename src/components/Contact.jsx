@@ -56,6 +56,7 @@ export default function Contact() {
     return (
         <>
             <div className="section-header">
+                <span className="section-eyebrow">08 / CONTACT INTERFACE</span>
                 <h2 className="section-title">Get In Touch</h2>
                 <div className="section-divider"></div>
             </div>
@@ -92,8 +93,13 @@ export default function Contact() {
                     </div>
                 </div>
 
-                {/* Interactive Contact Form */}
-                <div className="contact-card form-card">
+                {/* Interactive Contact Form with Terminal Header */}
+                <div className="contact-card form-card terminal-form-card">
+                    <div className="contact-terminal-bar">
+                        <span className="terminal-cmd">$ ./connect --with-kishore</span>
+                        <span className="terminal-status-pill">● STATUS: OPEN</span>
+                    </div>
+
                     <form id="contactForm" onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="contactName">Name</label>
@@ -134,11 +140,11 @@ export default function Contact() {
                         
                         <button 
                             type="submit" 
-                            className="btn btn-primary btn-block" 
+                            className="btn btn-primary btn-block terminal-submit-btn" 
                             id="contactSubmitBtn"
                             disabled={isSubmitting}
                         >
-                            {isSubmitting ? 'Sending...' : 'Send Message'}
+                            {isSubmitting ? 'TRANSMITTING...' : 'SEND MESSAGE →'}
                         </button>
                         
                         {formStatus && (
@@ -152,3 +158,4 @@ export default function Contact() {
         </>
     );
 }
+

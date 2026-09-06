@@ -10,7 +10,8 @@ const certsData = [
         desc: 'Advanced object-oriented programming in Python, modules, packages, exception handling, string operations, and file I/O.',
         skills: ['Python', 'OOP'],
         verifyId: 'ID: 2a682...fdc2',
-        verifyUrl: 'https://www.skillrack.com/cert/608096/FYR'
+        verifyUrl: 'https://www.skillrack.com/cert/608096/FYR',
+        isVerified: true
     },
     {
         icon: '🛡️',
@@ -19,8 +20,9 @@ const certsData = [
         title: 'Cybersecurity Job Simulation',
         desc: 'Completed simulated tasks on security awareness, cryptography application, phishing analysis, and threat identification.',
         skills: ['Cybersecurity'],
-        verifyId: 'ID: 2Edu7...8CiX',
-        verifyUrl: 'https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008'
+        verifyId: 'Verified Credential',
+        verifyUrl: 'https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008',
+        isVerified: true
     },
     {
         icon: '🎯',
@@ -30,7 +32,8 @@ const certsData = [
         desc: 'Validated foundational knowledge of Python programming, including data structures, functional concepts, and basic algorithms.',
         skills: ['Python'],
         verifyId: 'Verified Credential',
-        verifyUrl: 'https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008'
+        verifyUrl: 'https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008',
+        isVerified: true
     },
     {
         icon: '💻',
@@ -40,7 +43,8 @@ const certsData = [
         desc: 'Comprehensive training in security configurations, network auditing, cybersecurity fundamentals, and industry-standard security tools.',
         skills: ['Cybersecurity'],
         verifyId: 'Verified Credential',
-        verifyUrl: 'https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008'
+        verifyUrl: 'https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008',
+        isVerified: true
     },
     {
         icon: '🔒',
@@ -50,7 +54,8 @@ const certsData = [
         desc: 'Explored network security principles, threat mitigation, data privacy, and foundational security concepts across global communication networks.',
         skills: ['Cybersecurity'],
         verifyId: 'Verified Credential',
-        verifyUrl: 'https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008'
+        verifyUrl: 'https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008',
+        isVerified: true
     },
     {
         icon: '⚙️',
@@ -60,7 +65,8 @@ const certsData = [
         desc: 'Foundational programming basics in Python, covering variable operations, flow controls, loops, and custom functions.',
         skills: ['Python'],
         verifyId: 'Verified Credential',
-        verifyUrl: 'https://www.skillrack.com/cert/608000/XYD'
+        verifyUrl: 'https://www.skillrack.com/cert/608000/XYD',
+        isVerified: true
     },
     {
         icon: '🎓',
@@ -70,7 +76,8 @@ const certsData = [
         desc: 'Completed an 8-week certification course covering core algorithms in data processing, supervised learning, and AI application paradigms.',
         skills: ['Data Science', 'AI'],
         verifyId: 'Participation Cert',
-        verifyUrl: 'https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008'
+        verifyUrl: 'https://www.skillrack.com/faces/resume.xhtml?id=553019&key=Kishore_k_v-2008',
+        isVerified: false
     }
 ];
 
@@ -78,6 +85,7 @@ export default function Certifications() {
     return (
         <>
             <div className="section-header">
+                <span className="section-eyebrow">05 / CREDENTIALS</span>
                 <h2 className="section-title">Licenses & Certifications</h2>
                 <div className="section-divider"></div>
             </div>
@@ -85,7 +93,7 @@ export default function Certifications() {
             <div className="certs-grid">
                 {certsData.map((cert, index) => (
                     <article key={index} className="cert-card-wrapper">
-                        <TiltCard className="cert-card tilt-card">
+                        <TiltCard className="cert-card credential-card tilt-card">
                             <div className="cert-header">
                                 <div className="cert-brand">
                                     <span className="cert-icon">{cert.icon}</span>
@@ -101,16 +109,22 @@ export default function Certifications() {
                                 ))}
                             </div>
                             <div className="cert-footer">
-                                <span className={cert.verifyId.includes('ID:') ? 'cert-id' : 'cert-status'}>
-                                    {cert.verifyId}
-                                </span>
+                                {cert.isVerified ? (
+                                    <span className="credential-status verified">
+                                        ● VERIFIED
+                                    </span>
+                                ) : (
+                                    <span className="credential-status issued">
+                                        ● ISSUED
+                                    </span>
+                                )}
                                 <a 
                                     href={cert.verifyUrl} 
                                     target="_blank" 
                                     rel="noopener noreferrer" 
-                                    className="cert-link"
+                                    className="cert-link credential-link"
                                 >
-                                    Verify
+                                    View Credential ↗
                                 </a>
                             </div>
                         </TiltCard>

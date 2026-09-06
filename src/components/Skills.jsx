@@ -387,6 +387,7 @@ export default function Skills() {
     return (
         <>
             <div className="section-header">
+                <span className="section-eyebrow">04 / TECHNICAL SKILLS</span>
                 <h2 className="section-title">Technical Skills</h2>
                 <p className="section-subtitle">
                     A practical toolkit spanning software development, cybersecurity, networking & cloud architecture.

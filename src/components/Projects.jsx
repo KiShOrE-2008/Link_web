@@ -8,10 +8,11 @@ const projectsData = [
         badge: 'Security',
         title: 'Password Strength Checker',
         desc: 'Advanced password strength analysis system applying entropy algorithms, pattern checks, crack-time estimates, and secure client-side PBKDF2 hashing.',
-        tags: ['Python', 'JavaScript', 'Cryptography'],
+        tags: ['Python', 'JavaScript', 'Cryptography', 'Security Analysis'],
         link: 'https://github.com/KiShOrE-2008/Password_Checker',
-        linkLabel: 'Code',
-        linkId: 'linkProjPassCheck'
+        linkLabel: 'View Code',
+        linkId: 'linkProjPassCheck',
+        isFeatured: true
     },
     {
         id: 'projectRouterMonitor',
@@ -22,53 +23,99 @@ const projectsData = [
         tags: ['Python', 'Traffic Analysis', 'Websockets'],
         link: 'https://github.com/KiShOrE-2008',
         linkLabel: 'Explore',
-        linkId: 'linkProjRouter'
+        linkId: 'linkProjRouter',
+        isFeatured: false
     },
     {
         id: 'projectWasteSegregation',
         icon: '♻️',
-        badge: 'IoT',
-        title: 'Smart Waste Segregation',
+        badge: 'IoT Hardware',
+        title: 'Smart Waste Segregation System',
         desc: 'Automated sorting system using hardware sensors, moisture detectors, microcontrollers (Arduino), and servo actuators to segregate trash.',
         tags: ['Arduino', 'C / C++', 'IoT Hardware'],
         link: 'https://github.com/KiShOrE-2008',
         linkLabel: 'Explore',
-        linkId: 'linkProjWaste'
+        linkId: 'linkProjWaste',
+        isFeatured: false
     },
     {
         id: 'projectLinkWeb',
         icon: '🎛️',
         badge: 'Web UI',
-        title: 'Portfolio Dashboard',
-        desc: 'A modern, responsive link list profile directory featuring micro-interactions, custom themes, and glassmorphic designs.',
-        tags: ['HTML5', 'CSS3', 'JavaScript'],
+        title: 'Portfolio Command Center',
+        desc: 'A modern, responsive link list profile directory featuring micro-interactions, custom themes, and glassmorphic dynamic physics canvas.',
+        tags: ['React', 'Vite', 'CSS3', 'Canvas API'],
         link: 'https://github.com/KiShOrE-2008/Portfolio',
-        linkLabel: 'Code',
-        linkId: 'linkProjLinkweb'
+        linkLabel: 'View Code',
+        linkId: 'linkProjLinkweb',
+        isFeatured: false
     },
     {
         id: 'projectCarsWeb',
         icon: '🏎️',
         badge: 'Web UI',
-        title: 'Cars Web Page',
-        desc: 'A beautiful landing showcase for performance cars highlighting fluid responsive grids, smooth imagery animations, and model filters.',
-        tags: ['HTML5', 'CSS3', 'Design'],
+        title: 'Performance Cars Showcase',
+        desc: 'A landing showcase for performance cars highlighting fluid responsive grids, smooth imagery animations, and model filters.',
+        tags: ['HTML5', 'CSS3', 'JavaScript'],
         link: 'https://github.com/KiShOrE-2008/cars',
-        linkLabel: 'Code',
-        linkId: 'linkProjCars'
+        linkLabel: 'View Code',
+        linkId: 'linkProjCars',
+        isFeatured: false
     }
 ];
 
 export default function Projects() {
+    const featuredProject = projectsData.find((p) => p.isFeatured) || projectsData[0];
+    const secondaryProjects = projectsData.filter((p) => p.id !== featuredProject.id);
+
     return (
         <>
             <div className="section-header">
+                <span className="section-eyebrow">06 / FEATURED WORK</span>
                 <h2 className="section-title">Projects Showcase</h2>
                 <div className="section-divider"></div>
             </div>
 
-            <div className="projects-grid">
-                {projectsData.map((project) => (
+            {/* Featured Project Hero Card */}
+            <div className="featured-project-container">
+                <TiltCard className="featured-project-card tilt-card" id={featuredProject.id}>
+                    <div className="featured-card-badge-row">
+                        <span className="featured-star-pill">★ FEATURED PROJECT</span>
+                        <span className="project-badge">{featuredProject.badge}</span>
+                    </div>
+
+                    <div className="featured-project-body">
+                        <div className="featured-icon-title">
+                            <span className="featured-icon">{featuredProject.icon}</span>
+                            <h3 className="featured-title">{featuredProject.title}</h3>
+                        </div>
+
+                        <p className="featured-desc">{featuredProject.desc}</p>
+
+                        <div className="project-tags">
+                            {featuredProject.tags.map((tag, tIdx) => (
+                                <span key={tIdx} className="tag">{tag}</span>
+                            ))}
+                        </div>
+
+                        <div className="featured-actions">
+                            <a 
+                                href={featuredProject.link} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="btn btn-primary featured-btn"
+                                id={featuredProject.linkId}
+                            >
+                                Source Repository ↗
+                            </a>
+                        </div>
+                    </div>
+                </TiltCard>
+            </div>
+
+            {/* Secondary Compact Projects Grid */}
+            <div className="projects-grid secondary-projects-grid">
+                {secondaryProjects.map((project) => (
                     <article key={project.id} className="project-card-wrapper">
                         <TiltCard className="project-card tilt-card" id={project.id}>
                             <div className="project-header">
@@ -90,13 +137,7 @@ export default function Projects() {
                                     className="project-link" 
                                     id={project.linkId}
                                 >
-                                    {project.linkLabel}{' '}
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                        strokeLinecap="round" strokeLinejoin="round">
-                                        <path
-                                            d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                                        </path>
-                                    </svg>
+                                    {project.linkLabel} ↗
                                 </a>
                             </div>
                         </TiltCard>
