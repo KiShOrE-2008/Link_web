@@ -8,6 +8,7 @@ import Experience from './components/Experience';
 import Skills from './components/Skills';
 import Certifications from './components/Certifications';
 import Projects from './components/Projects';
+import CodingActivity from './components/CodingActivity';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import LightboxModal from './components/LightboxModal';
@@ -40,7 +41,7 @@ export default function App() {
     // Active Section Scroll Spy
     useEffect(() => {
         const handleScroll = () => {
-            const sectionsList = ['hero', 'about', 'education', 'experience', 'skills', 'certifications', 'projects', 'contact'];
+            const sectionsList = ['hero', 'about', 'education', 'experience', 'skills', 'certifications', 'projects', 'activity', 'contact'];
             let current = 'hero';
 
             for (const sectionId of sectionsList) {
@@ -117,6 +118,10 @@ export default function App() {
 
                 <ScrollSection id="projects" className="projects-section">
                     <Projects />
+                </ScrollSection>
+
+                <ScrollSection id="activity" className="activity-section">
+                    <CodingActivity />
                 </ScrollSection>
 
                 <ScrollSection id="contact" className="contact-section">

@@ -55,6 +55,7 @@ export default function Navbar({ activeSection }) {
         { id: 'skills', label: 'Skills' },
         { id: 'certifications', label: 'Certifications' },
         { id: 'projects', label: 'Projects' },
+        { id: 'activity', label: 'Coding Activity' },
         { id: 'contact', label: 'Contact' },
     ];
 
